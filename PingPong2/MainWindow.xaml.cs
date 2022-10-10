@@ -32,11 +32,13 @@ namespace PingPong
         double newWindowHeight;
         double mouseX, mouseY;
         int time = 0;
-        int recTime = 0;
+        int recTime = 0, recOnce = 0;
         int speedX, speedY, initSpeed = (int) Speeds.DEBUG;
         bool pause = false;
 
         bool readSuccess;
+
+        static SoundPlayer audio;
 
         public MainWindow()
         {
@@ -44,9 +46,10 @@ namespace PingPong
             InitializeComponent();
             SpawnBall();
             SpawnPlayer();
+            recOnce = 0;
 
             //SOUND
-            SoundPlayer audio = new SoundPlayer(PingPong2.Properties.Resources.start); 
+            audio = new SoundPlayer(PingPong2.Properties.Resources.start); 
             audio.Play();
 
             //SoundPlayer audio2 = new SoundPlayer(PingPong2.Properties.Resources.bgm3);
@@ -60,6 +63,10 @@ namespace PingPong
 
                 if(readSuccess)
                     ScoreRec.Content = "(" + recTime + ")";
+            }
+            else 
+            {
+                File.WriteAllText("Highscore.txt", "0");
             }
 
             //CURSOR
@@ -89,7 +96,7 @@ namespace PingPong
         protected void SpawnBall()
         {
             Random rnd = new Random();
-            int rand = rnd.Next(1, 800);
+            int rand = rnd.Next(1, 799);
 
             Ball.Margin = new Thickness(rand, 50, 0, 0);
 
@@ -131,14 +138,14 @@ namespace PingPong
                 { 
                     speedX *= -1;
 
-                    SoundPlayer audio = new SoundPlayer(PingPong2.Properties.Resources.reload2);
+                    audio = new SoundPlayer(PingPong2.Properties.Resources.reload2);
                     audio.Play();
                 }
                 else if(Ball.Margin.Left + Ball.Width >= 800) //HIT RIGHT
                 {
                     speedX *= -1;
 
-                    SoundPlayer audio = new SoundPlayer(PingPong2.Properties.Resources.reload2);
+                    audio = new SoundPlayer(PingPong2.Properties.Resources.reload2);
                     audio.Play();
                 }
 
@@ -146,7 +153,7 @@ namespace PingPong
                 {
                     speedY *= -1;
 
-                    SoundPlayer audio = new SoundPlayer(PingPong2.Properties.Resources.reload2);
+                    audio = new SoundPlayer(PingPong2.Properties.Resources.reload2);
                     audio.Play();
                 }
                 else if (Ball.Margin.Top + Ball.Height >= 434 - Player.Height) 
@@ -159,7 +166,7 @@ namespace PingPong
                         speedX = (speedX < 0) ? speedX -2 : speedX +2;
                         speedY = (speedY < 0) ? speedY -2 : speedY +2;
 
-                        SoundPlayer audio = new SoundPlayer(PingPong2.Properties.Resources.shot);
+                        audio = new SoundPlayer(PingPong2.Properties.Resources.shot);
                         audio.Play();
                     }
                     else if (Ball.Margin.Top + Ball.Height >= 434) //HIT BOTTOM -> RESET
@@ -172,12 +179,12 @@ namespace PingPong
                             ScoreRec.Content = "(" + recTime + ")";
                             File.WriteAllText("Highscore.txt", recTime.ToString());
                         }
-                        else 
-                        {
-                            SoundPlayer audio = new SoundPlayer(PingPong2.Properties.Resources.die);
-                            audio.Play();
-                        }
+
+                        audio = new SoundPlayer(PingPong2.Properties.Resources.die);
+                        audio.Play();
+
                         time = 0;
+                        recOnce = 0;
                     }
                 }
 
@@ -218,10 +225,12 @@ namespace PingPong
                 time++;
                 Score.Content = time;
 
-                if(time > recTime && recTime != 0) 
+                if(time > recTime && recTime != 0 && recOnce == 0) 
                 {
-                    SoundPlayer audio = new SoundPlayer(PingPong2.Properties.Resources.hiscore);
+                    audio = new SoundPlayer(PingPong2.Properties.Resources.hiscore);
                     audio.Play();
+
+                    recOnce = 1;
                 }
             }));
         }
@@ -239,9 +248,18 @@ namespace PingPong
         protected void OnMouseClickLeft(object sender, MouseEventArgs e)
         {
             if (pause == true)
+            {
                 pause = false;
+                audio = new SoundPlayer(PingPong2.Properties.Resources.unpause);
+            }
+
             else
+            {
                 pause = true;
+                audio = new SoundPlayer(PingPong2.Properties.Resources.pause);
+            }
+
+            audio.Play();
         }
 
         //DEBUG
@@ -266,6 +284,9 @@ namespace PingPong
                 Lab4.Visibility = Visibility.Hidden;
                 Lab5.Visibility = Visibility.Hidden;
                 Lab6.Visibility = Visibility.Hidden;
+
+                audio = new SoundPlayer(PingPong2.Properties.Resources.debugger);
+                audio.Play();
             }
             else
             {
