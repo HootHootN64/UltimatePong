@@ -118,5 +118,14 @@
   <ItemGroup>
     <None Include="Resources\bgm3.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\debugger.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pause.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\unpause.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

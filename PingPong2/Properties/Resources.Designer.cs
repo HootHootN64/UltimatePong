@@ -72,6 +72,15 @@ namespace PingPong2.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream debugger {
+            get {
+                return ResourceManager.GetStream("debugger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream die {
             get {
                 return ResourceManager.GetStream("die", resourceCulture);
@@ -84,6 +93,15 @@ namespace PingPong2.Properties {
         internal static System.IO.UnmanagedMemoryStream hiscore {
             get {
                 return ResourceManager.GetStream("hiscore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream pause {
+            get {
+                return ResourceManager.GetStream("pause", resourceCulture);
             }
         }
         
@@ -120,6 +138,15 @@ namespace PingPong2.Properties {
         internal static System.IO.UnmanagedMemoryStream start {
             get {
                 return ResourceManager.GetStream("start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream unpause {
+            get {
+                return ResourceManager.GetStream("unpause", resourceCulture);
             }
         }
     }
